@@ -1,0 +1,337 @@
+/* ═══════════════════════════════════════════════════════════════
+   FLOWER CARD — CSS Module
+   ═══════════════════════════════════════════════════════════════ */
+
+.card {
+  --card-radius: 4px;
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--beige-deep);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  will-change: transform;
+}
+
+.cardHovered {
+  border-color: var(--warm-gray);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  transform: translateY(-2px);
+}
+
+/* ── Image ─────────────────────────────────────────────── */
+.imageWrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--beige);
+}
+
+.imageContainer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.imageLoaded {
+  opacity: 1;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+}
+
+.imageHover {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.cardHovered .image:not(.imageHover) {
+  transform: scale(1.04);
+}
+
+.cardHovered .imageHover {
+  opacity: 1;
+}
+
+/* ── Badges ─────────────────────────────────────────────── */
+.badges {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.badgePremium,
+.badgeSale,
+.badgeOut {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+}
+
+.badgePremium {
+  background: rgba(26, 26, 24, 0.85);
+  color: var(--champagne);
+  backdrop-filter: blur(4px);
+}
+
+.badgeSale {
+  background: rgba(62, 64, 48, 0.85);
+  color: var(--white);
+  backdrop-filter: blur(4px);
+}
+
+.badgeOut {
+  background: rgba(180, 100, 90, 0.85);
+  color: var(--white);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Emotion overlay (bottom de l'image) ────────────────── */
+.emotionOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.6rem 0.75rem;
+  background: linear-gradient(to top, rgba(26, 26, 24, 0.55), transparent);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cardHovered .emotionOverlay {
+  opacity: 1;
+}
+
+.emotionBar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.emotionFill {
+  display: block;
+  height: 100%;
+  background: var(--champagne);
+  border-radius: 1px;
+  transition: width 0.8s ease;
+}
+
+.emotionName {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+}
+
+/* ── Corps ─────────────────────────────────────────────── */
+.body {
+  padding: 1rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.35rem;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--champagne);
+}
+
+.ratingVal {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.ratingCount {
+  font-size: 0.68rem;
+  color: var(--warm-gray);
+}
+
+.nameLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+  transition: color 0.2s;
+}
+
+.nameLink:hover .name {
+  color: var(--champagne);
+}
+
+.desc {
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Emotion pills ──────────────────────────────────────── */
+.emotions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.emotionPill {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  border: 1px solid var(--beige-deep);
+  color: var(--ink-soft);
+  text-transform: capitalize;
+}
+
+/* ── Footer : prix + actions ────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--beige-deep);
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.oldPrice {
+  font-size: 0.72rem;
+  color: var(--warm-gray);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ── Bouton panier ──────────────────────────────────────── */
+.btnCart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-family: inherit;
+  padding: 0.45rem 0.85rem;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.25s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btnCart:hover:not(.btnCartDisabled) {
+  background: var(--olive-mid);
+}
+
+.btnCart:active:not(.btnCartDisabled) {
+  transform: scale(0.97);
+}
+
+.btnCartAdded {
+  background: var(--olive) !important;
+}
+
+.btnCartDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btnCartLabel {
+  /* hide label on very small cards */
+}
+
+/* ── Bouton WhatsApp ────────────────────────────────────── */
+.btnWa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 2px;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  background: rgba(37, 211, 102, 0.08);
+  color: #25d366;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.btnWa:hover {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.6);
+}
+
+/* ══ Variants ══════════════════════════════════════════════ */
+
+/* Compact — grille serrée */
+.variant-compact .imageWrap { aspect-ratio: 1 / 1; }
+.variant-compact .body      { padding: 0.75rem; }
+.variant-compact .desc      { display: none; }
+.variant-compact .emotions  { display: none; }
+.variant-compact .btnCartLabel { display: none; }
+
+/* Featured — grande carte */
+.variant-featured .imageWrap { aspect-ratio: 4 / 5; }
+.variant-featured .name      { font-size: 1.15rem; }
+
+/* ══ Responsive ════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .body { padding: 0.75rem 0.75rem 1rem; }
+  .desc { display: none; }
+  .btnCartLabel { display: none; }
+  .btnCart { padding: 0.45rem 0.6rem; }
+}

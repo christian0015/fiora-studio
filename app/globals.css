@@ -1,0 +1,130 @@
+/* ─── Flora Studio — Design System ───────────────────── */
+:root {
+  /*
+   * Palette raisonnée
+   * ─────────────────
+   * Canvas  → fond cassé chaud, jamais blanc pur
+   * Surface → cartes, zones légèrement plus claires
+   * Border  → lisible, jamais invisible
+   * Ink     → texte principal fort, ≥ 8:1 sur canvas
+   * Muted   → texte secondaire, ≥ 4.5:1 sur canvas
+   * Gold    → accent champagne profond, lisible seul
+   */
+
+  /* ── Fonds ─────────────────────────────────────────── */
+  --canvas:        #DEDAD2;   /* fond principal — cassé warm */
+  --surface:       #E6E2D8;   /* cartes, sections légères   */
+  --surface-raised:#EDE9E0;   /* hover states, badges        */
+  --border:        #C4BFB3;   /* séparateurs visibles        */
+  --border-subtle: #D2CEC5;   /* séparateurs discrets        */
+
+  /* ── Textes ────────────────────────────────────────── */
+  --ink:           #0E0E0C;   /* titre principal — quasi noir */
+  --ink-soft:      #252520;   /* corps de texte — très lisible */
+  --muted:         #5C5850;   /* secondaire — 4.5:1 min       */
+  --ghost:         #8A857C;   /* placeholders, labels légers  */
+
+  /* ── Accent or/champagne ───────────────────────────── */
+  --gold:          #A67C3A;   /* champagne profond, lisible   */
+  --gold-lt:       #C49A52;   /* hover / variante plus claire  */
+  --gold-dim:      #7A5C28;   /* sur fonds clairs             */
+
+  /* ── Sombres (sections dark) ───────────────────────── */
+  --dark:          #131410;   /* fond sections sombres        */
+  --dark-mid:      #1E2118;   /* olive très sombre            */
+  --dark-surface:  #252A1C;   /* cartes sur fond dark         */
+  --dark-border:   #3A3F2E;   /* séparateurs sur dark         */
+  --dark-muted:    rgba(230,226,216,0.42); /* texte secondaire sur dark */
+  --on-dark:       #E6E2D8;   /* texte principal sur dark     */
+
+  /* Aliases rétrocompat (utilisés dans certains composants) */
+  --white:        var(--surface-raised);
+  --beige:        var(--surface);
+  --beige-deep:   var(--border);
+  --warm-gray:    var(--ghost);
+  --champagne:    var(--gold);
+  --champagne-lt: var(--gold-lt);
+  --olive:        var(--dark-mid);
+  --olive-mid:    var(--dark-surface);
+
+  /* Typography scale */
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  var(--font-dm-sans), 'DM Sans', Helvetica, sans-serif;
+
+  /* Spacing */
+  --gap-xs:  0.5rem;
+  --gap-sm:  1rem;
+  --gap-md:  2rem;
+  --gap-lg:  4rem;
+  --gap-xl:  8rem;
+
+  /* Transitions */
+  --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:   cubic-bezier(0.0, 0.0, 0.2, 1);
+  --dur-fast:   180ms;
+  --dur-med:    360ms;
+  --dur-slow:   600ms;
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a   { color: inherit; text-decoration: none; }
+ul  { list-style: none; }
+button { border: none; background: none; cursor: pointer; font: inherit; }
+
+/* ─── Grain overlay ──────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ─── Typography utilities ───────────────────────────── */
+.serif   { font-family: var(--font-serif); }
+.caption {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+}
+
+/* ─── Geometric botanical motif (reusable) ───────────── */
+.botanical-line {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--champagne), transparent);
+  opacity: 0.5;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: var(--beige); }
+::-webkit-scrollbar-thumb  { background: var(--champagne); border-radius: 2px; }
+
+/* ─── Selection ──────────────────────────────────────── */
+::selection { background: var(--champagne); color: var(--white); }

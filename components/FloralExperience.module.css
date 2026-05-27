@@ -1,0 +1,267 @@
+/* ────────────────────────────────────────────────────────
+   FloralExperience.module.css — Version 1 (CSS + GSAP)
+   ──────────────────────────────────────────────────────── */
+
+/* ── Section container ───────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  /* Fond neutre visible avant que le scroll active le dark */
+  background: var(--white);
+}
+
+/* ── Dark overlay (animé par GSAP, opacity: 0 → 1) ──── */
+.bg {
+  position: absolute;
+  inset: 0;
+  background: #111210;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Cercles géométriques ────────────────────────────── */
+/* Les deux cercles démarrent déprimés et opaques à 0   */
+.ring1,
+.ring2 {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.25);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ring1 {
+  width: clamp(320px, 65vmin, 680px);
+  height: clamp(320px, 65vmin, 680px);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+}
+
+.ring2 {
+  width: clamp(480px, 92vmin, 960px);
+  height: clamp(480px, 92vmin, 960px);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════
+ * AJOUT v1.1 — SVG Racines descendantes (scroll-hint)
+ * ═══════════════════════════════════════════════════════
+ * Épinglé en haut de la section, couvre toute la largeur.
+ * z-index: 2 → devant les cercles, derrière le contenu.
+ * pointer-events: none → aucune interférence UX.
+ * mix-blend-mode: screen → se fond proprement sur le fond
+ * sombre sans créer de rectangle opaque visible.
+ */
+.rootsSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  /* Hauteur étendue pour que les racines descendent bien dans la section */
+  max-height: 36vh;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: opacity;
+}
+
+/* ── SVG botanique ───────────────────────────────────── */
+.botanicalSvg {
+  position: absolute;
+  right: clamp(4%, 10vw, 16%);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(140px, 16vw, 240px);
+  height: auto;
+  z-index: 2;
+  opacity: 0.72;
+  /* transition smooth pour le changement de couleur au fond */
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+/* ── Contenu ─────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  padding: 0 clamp(2rem, 8vw, 8rem);
+  max-width: min(680px, 58vw);
+}
+
+/* ── Eyebrow ─────────────────────────────────────────── */
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  /* GSAP anime opacity + y depuis les valeurs initiales inline */
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* ── Headline ────────────────────────────────────────── */
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-family: var(--font-serif);
+  line-height: 0.92;
+}
+
+/* Conteneur masque — overflow: hidden coupe le translateY(110%) */
+.maskOuter {
+  display: block;
+  overflow: hidden;
+  /* Légère marge pour que les lettres italiques ne soient pas coupées */
+  padding-bottom: 0.06em;
+}
+
+.maskOuterAccent {
+  /* Espace supplémentaire pour les grands caractères italiques */
+  padding-bottom: 0.04em;
+}
+
+.maskWord {
+  display: block;
+  font-size: clamp(2.5rem, 5.8vw, 5rem);
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  /* Départ en dessous → GSAP anime vers 0% */
+  transform: translateY(110%);
+}
+
+.maskItalic {
+  display: block;
+  font-size: clamp(3.8rem, 8.5vw, 7.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--champagne);
+  letter-spacing: -0.02em;
+  transform: translateY(110%);
+}
+
+/* ── Piliers ─────────────────────────────────────────── */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem 2rem;
+  border-top: 1px solid rgba(201, 169, 110, 0.15);
+  padding-top: 1.75rem;
+}
+
+.pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  /* Départ invisible → GSAP anime */
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.pillarNum {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--champagne);
+}
+
+.pillarLabel {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.25;
+}
+
+.pillarDesc {
+  font-size: 0.775rem;
+  color: rgba(250, 250, 247, 0.42);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── Bas : ligne champagne + CTA ─────────────────────── */
+.bottom {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--champagne) 0%, transparent 100%);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  flex-shrink: 0;
+  transition: gap var(--dur-fast) var(--ease);
+}
+
+.cta:hover    { gap: 1rem; }
+.cta:hover .ctaArrow { transform: translateX(5px); }
+
+.ctaArrow {
+  display: inline-block;
+  font-style: normal;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .content { max-width: 72vw; }
+  .botanicalSvg { right: 4%; opacity: 0.3; width: 120px; }
+}
+
+@media (max-width: 768px) {
+  .content {
+    max-width: 100%;
+    padding: 0 1.5rem;
+  }
+  .pillars {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .botanicalSvg {
+    display: none;  /* masqué → svg reste en DOM pour GSAP */
+    visibility: hidden;
+  }
+  .maskWord   { font-size: clamp(2rem, 10vw, 3rem); }
+  .maskItalic { font-size: clamp(3rem, 14vw, 5rem); }
+
+  /* Racines légèrement réduites sur mobile */
+  .rootsSvg {
+    max-height: 30vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .rule   { width: 100%; flex: none; }
+}

@@ -1,0 +1,507 @@
+/* ═══════════════════════════════════════════════════════════
+   OccasionGrid.module.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Section ────────────────────────────────────────────── */
+.section {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: var(--gap-xl) 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  /* caption class from globals */
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.08;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  max-width: 680px;
+}
+
+.headline span {
+  display: block;
+  color: var(--ink-soft);
+}
+
+.headline em {
+  display: block;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ─── Grid ───────────────────────────────────────────────── */
+/*
+  Layout desktop :
+  Col 1 (large): romantique  → row 1–2  (hero)
+  Col 2 : anniversaire       → row 1
+  Col 2 : mariage            → row 2
+  Col 3 : excuses            → row 1
+  Col 3 : élégance           → row 2
+           entreprise        → row 3 full width
+*/
+.grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1px;                       /* gap optique : séparateur 1px beige */
+  background: var(--beige-deep);  /* border-collapse via background trick */
+  border: 1px solid var(--beige-deep);
+}
+
+/* ─── Card base ──────────────────────────────────────────── */
+.card {
+  --accent: #C9A96E;    /* overridé par chaque occasion */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 2rem 2.25rem;
+  background: var(--white);
+  text-decoration: none;
+  overflow: hidden;
+  min-height: 240px;
+  transition: background var(--dur-med) var(--ease);
+}
+
+.card:hover { background: var(--beige); }
+
+/* Card hero (romantique) — grande */
+.cardHero {
+  grid-column: 1;
+  grid-row:    1 / 3;
+  min-height:  500px;
+  padding:     2.75rem 2.5rem 3rem;
+}
+
+/* ─── Card background overlay ────────────────────────────── */
+.cardBg {
+  position:  absolute;
+  inset:     0;
+  background: var(--accent);
+  opacity:   0;
+  transition: opacity var(--dur-slow) var(--ease);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.cardBgActive { opacity: 0.07; }
+
+/* ─── Accent bar ─────────────────────────────────────────── */
+.cardAccentBar {
+  position:   absolute;
+  top:        0; left: 0;
+  width:      2px;
+  height:     0;
+  background: var(--accent);
+  transition: height var(--dur-slow) var(--ease);
+  pointer-events: none;
+}
+
+.card:hover .cardAccentBar { height: 100%; }
+
+/* ─── Numéro ─────────────────────────────────────────────── */
+.cardNum {
+  position: absolute;
+  top:      1.5rem;
+  right:    1.75rem;
+  font-family: var(--font-serif);
+  font-size:   0.8rem;
+  font-weight: 300;
+  font-style:  italic;
+  color: var(--beige-deep);
+  letter-spacing: 0.04em;
+  transition: color var(--dur-med) var(--ease);
+  pointer-events: none;
+}
+
+.card:hover .cardNum { color: var(--accent); }
+
+/* ─── Card body ──────────────────────────────────────────── */
+.cardBody {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.75rem;
+  position:       relative;
+  z-index:        1;
+}
+
+/* Count badge */
+.countBadge {
+  font-size:       0.625rem;
+  letter-spacing:  0.18em;
+  text-transform:  uppercase;
+  color:           var(--warm-gray);
+  font-family:     var(--font-sans);
+  width:           fit-content;
+}
+
+/* Label */
+.cardLabel {
+  font-family: var(--font-serif);
+  font-size:   clamp(1.5rem, 2.5vw, 2.2rem);
+  font-weight: 400;
+  font-style:  italic;
+  color:       var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  transition:  color var(--dur-fast) var(--ease);
+}
+
+.card:hover .cardLabel { color: var(--accent); }
+
+/* Description courte */
+.cardDesc {
+  font-size:   0.8125rem;
+  color:       var(--warm-gray);
+  line-height: 1.65;
+  max-width:   320px;
+}
+
+/* Description longue — masquée par défaut, reveal en CSS height */
+.cardLongDesc {
+  font-size:   0.775rem;
+  color:       var(--ink-soft);
+  line-height: 1.7;
+  max-width:   320px;
+  max-height:  0;
+  overflow:    hidden;
+  opacity:     0;
+  transition:
+    max-height var(--dur-slow) var(--ease),
+    opacity    var(--dur-med)  var(--ease);
+}
+
+.card:hover .cardLongDesc {
+  max-height: 120px;
+  opacity:    1;
+}
+
+/* Émotions pills */
+.cardEmotions {
+  display:    flex;
+  flex-wrap:  wrap;
+  gap:        0.375rem;
+  margin-top: 0.25rem;
+}
+
+.emotionPill {
+  font-size:        0.6rem;
+  letter-spacing:   0.12em;
+  text-transform:   uppercase;
+  color:            var(--warm-gray);
+  border:           0.5px solid var(--beige-deep);
+  padding:          0.28rem 0.625rem;
+  border-radius:    1px;
+  font-family:      var(--font-sans);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    color        var(--dur-fast) var(--ease);
+}
+
+.card:hover .emotionPill {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--beige-deep));
+  color:        var(--ink-soft);
+}
+
+/* ─── Flèche CTA ─────────────────────────────────────────── */
+.cardArrow {
+  position:   absolute;
+  bottom:     2rem;
+  right:      2rem;
+  font-size:  1rem;
+  color:      var(--beige-deep);
+  transform:  translateX(-8px);
+  opacity:    0;
+  transition:
+    opacity   var(--dur-med) var(--ease),
+    transform var(--dur-med) var(--ease),
+    color     var(--dur-fast) var(--ease);
+  z-index:    1;
+}
+
+.cardArrowActive {
+  opacity:   1;
+  transform: translateX(0);
+  color:     var(--accent);
+}
+
+/* ─── Divider ────────────────────────────────────────────── */
+.divider {
+  display:     flex;
+  align-items: center;
+  gap:         1rem;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--beige-deep), transparent);
+}
+
+.dividerDot {
+  width:         5px;
+  height:        5px;
+  border-radius: 50%;
+  background:    var(--champagne);
+  flex-shrink:   0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EMOTION PERSONALIZER STRIP
+   ═══════════════════════════════════════════════════════════ */
+.strip {
+  display:   grid;
+  grid-template-columns: 340px 1fr;
+  gap:       3rem;
+  align-items: start;
+  background:  var(--beige);
+  border:      1px solid var(--beige-deep);
+  padding:     3rem 2.75rem;
+}
+
+/* Texte gauche */
+.stripLeft {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.875rem;
+  position:       sticky;
+  top:            80px;          /* reste visible en scroll */
+}
+
+.stripEyebrow {
+  font-size:       0.625rem;
+  letter-spacing:  0.24em;
+  text-transform:  uppercase;
+  color:           var(--warm-gray);
+}
+
+.stripHeadline {
+  font-family:   var(--font-serif);
+  font-size:     clamp(1.5rem, 2.2vw, 2rem);
+  font-weight:   300;
+  line-height:   1.15;
+  color:         var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.stripHeadline em {
+  font-style: italic;
+  color:      var(--ink);
+}
+
+.stripSub {
+  font-size:   0.8rem;
+  color:       var(--warm-gray);
+  line-height: 1.65;
+}
+
+/* Droite */
+.stripRight {
+  display:        flex;
+  flex-direction: column;
+  gap:            1.5rem;
+}
+
+/* Grille émotions */
+.emotionGrid {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       0.5rem;
+}
+
+.ePill {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           0.375rem;
+  padding:       0.5rem 0.875rem;
+  font-size:     0.75rem;
+  font-family:   var(--font-sans);
+  font-weight:   400;
+  letter-spacing: 0.06em;
+  color:         var(--ink-soft);
+  background:    var(--white);
+  border:        0.5px solid var(--beige-deep);
+  border-radius: 2px;
+  cursor:        pointer;
+  transition:
+    background    var(--dur-fast) var(--ease),
+    border-color  var(--dur-fast) var(--ease),
+    color         var(--dur-fast) var(--ease),
+    transform     var(--dur-fast) var(--ease);
+}
+
+.ePill:hover {
+  border-color: var(--champagne);
+  color:        var(--ink);
+  transform:    translateY(-1px);
+}
+
+.ePillActive {
+  background:   var(--ink);
+  border-color: var(--ink);
+  color:        var(--white);
+}
+
+.ePillActive:hover {
+  background:   var(--ink-soft);
+  border-color: var(--ink-soft);
+  color:        var(--white);
+  transform:    translateY(-1px);
+}
+
+.ePillIcon {
+  font-style: normal;
+  font-size:  0.8rem;
+  opacity:    0.7;
+}
+
+/* Footer sélecteur */
+.stripFooter {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  flex-wrap:       wrap;
+  gap:             1rem;
+  padding-top:     1.25rem;
+  border-top:      1px solid var(--beige-deep);
+}
+
+/* Résumé sélection */
+.selectedSummary {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       0.375rem;
+  flex:      1;
+}
+
+.summaryEmpty {
+  font-size:   0.75rem;
+  color:       var(--warm-gray);
+  font-style:  italic;
+  font-family: var(--font-serif);
+}
+
+.summaryTag {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           0.375rem;
+  font-size:     0.7rem;
+  font-family:   var(--font-sans);
+  letter-spacing: 0.06em;
+  color:         var(--ink-soft);
+  background:    var(--beige-deep);
+  padding:       0.3rem 0.625rem;
+  border-radius: 2px;
+}
+
+.summaryRemove {
+  font-size:     0.875rem;
+  color:         var(--warm-gray);
+  cursor:        pointer;
+  line-height:   1;
+  padding:       0 1px;
+  transition:    color var(--dur-fast);
+}
+
+.summaryRemove:hover { color: var(--ink); }
+
+/* Bouton trouver */
+.findBtn {
+  display:         inline-flex;
+  align-items:     center;
+  padding:         0.8rem 1.75rem;
+  background:      var(--ink);
+  color:           var(--white);
+  font-size:       0.75rem;
+  font-family:     var(--font-sans);
+  font-weight:     500;
+  letter-spacing:  0.12em;
+  text-transform:  uppercase;
+  border-radius:   2px;
+  cursor:          pointer;
+  flex-shrink:     0;
+  transition:
+    background  var(--dur-fast) var(--ease),
+    transform   var(--dur-fast) var(--ease),
+    opacity     var(--dur-fast) var(--ease);
+}
+
+.findBtn:hover:not(:disabled) {
+  background: var(--olive);
+  transform:  translateY(-1px);
+}
+
+.findBtnDisabled {
+  background: var(--beige-deep);
+  color:      var(--warm-gray);
+  cursor:     not-allowed;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .section { padding: var(--gap-xl) 1.75rem; }
+
+  .grid {
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows:    auto;
+  }
+
+  .cardHero {
+    grid-column: 1;
+    grid-row:    1 / 3;
+    min-height:  420px;
+  }
+
+  .strip {
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 4rem 1.25rem; gap: 2.5rem; }
+
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows:    auto;
+  }
+
+  .cardHero { grid-column: 1; grid-row: auto; min-height: 260px; }
+  .card     { min-height: 200px; }
+
+  /* Sur mobile les longDesc sont toujours visibles */
+  .cardLongDesc { max-height: 80px; opacity: 0.7; }
+
+  .cardArrow { opacity: 1; transform: translateX(0); }
+
+  .strip {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .stripLeft { position: static; }
+
+  .stripFooter { flex-direction: column; align-items: flex-start; }
+  .findBtn     { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .emotionGrid { gap: 0.375rem; }
+  .ePill       { font-size: 0.7rem; padding: 0.425rem 0.75rem; }
+}

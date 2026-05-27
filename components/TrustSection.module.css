@@ -1,0 +1,222 @@
+/* ═══════════════════════════════════════════════════════════
+   TrustSection.module.css
+   ═══════════════════════════════════════════════════════════ */
+
+.section {
+  width: 100%;
+  padding: 0 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ─── Inner dark container ───────────────────────────────── */
+.inner {
+  background: var(--olive);
+  padding: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 5vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grain subtil sur le fond sombre */
+.inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+/* ─── Ligne champagne déco ───────────────────────────────── */
+.rule {
+  height: 1px;
+  background: linear-gradient(to right, var(--champagne) 0%, transparent 60%);
+  opacity: 0.35;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  opacity: 0.8;
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--champagne);
+}
+
+/* ─── Piliers ────────────────────────────────────────────── */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+/* ─── Pilier ─────────────────────────────────────────────── */
+.pillar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 2.5rem 0 0;
+
+  /* Transition hover globale */
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.pillars:hover .pillar { opacity: 0.55; }
+.pillars:hover .pillar:hover { opacity: 1; }
+
+/* Numéro */
+.pillarNum {
+  font-family: var(--font-serif);
+  font-size: 0.7rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(201, 169, 110, 0.4);
+  letter-spacing: 0.06em;
+}
+
+/* Icône */
+.pillarIcon {
+  color: var(--champagne);
+  opacity: 0.75;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.pillar:hover .pillarIcon { opacity: 1; }
+
+/* Contenu */
+.pillarContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.pillarLabel {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 247, 0.45);
+}
+
+.pillarValue {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.pillarDesc {
+  font-size: 0.78rem;
+  color: rgba(250, 250, 247, 0.42);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 220px;
+}
+
+/* Séparateur vertical entre piliers */
+.pillarSep {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.2), transparent);
+}
+
+/* ─── CTA WhatsApp ───────────────────────────────────────── */
+.ctaWrap {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding-top: 0.5rem;
+}
+
+.ctaRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,169,110,0.2), transparent);
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 2rem;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  color: var(--champagne);
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 1px;
+  flex-shrink: 0;
+  transition:
+    background    var(--dur-fast) var(--ease),
+    border-color  var(--dur-fast) var(--ease),
+    color         var(--dur-fast) var(--ease),
+    transform     var(--dur-fast) var(--ease);
+}
+
+.ctaBtn:hover {
+  background:   rgba(201, 169, 110, 0.1);
+  border-color: var(--champagne);
+  color:        var(--champagne-lt, #DEC48A);
+  transform:    translateY(-1px);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .pillars { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 0; }
+  .pillar  { padding: 0 2rem 0 0; }
+
+  /* Réajuster les séparateurs en 2×2 */
+  .pillar:nth-child(2) .pillarSep { display: none; }
+  .pillar:nth-child(4) .pillarSep { display: none; }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 0 1.25rem; }
+  .pillars { grid-template-columns: 1fr; gap: 2rem; }
+  .pillar  { padding: 0 0 2rem; border-bottom: 1px solid rgba(201,169,110,0.1); }
+  .pillar:last-child { border-bottom: none; padding-bottom: 0; }
+  .pillarSep { display: none !important; }
+  .ctaWrap { flex-direction: column; gap: 1rem; }
+  .ctaRule { display: none; }
+  .ctaBtn  { width: 100%; justify-content: center; }
+}

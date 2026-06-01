@@ -6,9 +6,9 @@ import OccasionPage from './OccasionPage'
 export const revalidate = 600
 
 /* ── SSG : pré-génère toutes les occasions ──────────────────── */
-export async function generateStaticParams() {
-  return occasions.map(o => ({ type: o.slug }))
-}
+// export async function generateStaticParams() {
+//   return occasions.map(o => ({ type: o.slug }))
+// }
 
 /* ── Metadata dynamique ─────────────────────────────────────── */
 export async function generateMetadata({ params }) {

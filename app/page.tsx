@@ -11,8 +11,8 @@ import FAQ from '@/components/FAQ'
 /* ─── Metadata ───────────────────────────────────────── */
 export const metadata = {
   title: {
-    default: 'Flora Studio — Fleurs de Prestige, Casablanca',
-    template: '%s — Flora Studio',
+    default: 'Fiora Studio — Fleurs de Prestige, Casablanca',
+    template: '%s — Fiora Studio',
   },
 
   description:
@@ -20,29 +20,29 @@ export const metadata = {
 
   keywords: [
     'fleurs Casablanca',
-    'Flora Studio',
+    'Fiora Studio',
     'bouquets premium',
     'livraison fleurs Casablanca',
     'fleuriste Casablanca',
   ],
 
-  authors: [{ name: 'Flora Studio' }],
+  authors: [{ name: 'Fiora Studio' }],
 
   /* ─── Open Graph (Facebook, WhatsApp, LinkedIn) ─── */
   openGraph: {
     type: 'website',
     locale: 'fr_MA',
-    siteName: 'Flora Studio',
-    title: 'Flora Studio — Fleurs de Prestige, Casablanca',
+    siteName: 'Fiora Studio',
+    title: 'Fiora Studio — Fleurs de Prestige, Casablanca',
     description:
       "Bouquets d'exception livrés le jour même à Casablanca.",
 
     images: [
       {
-        url: '/flora-studio-og.png', // image principale OG
+        url: '/og/fiora-studio-og.jpg', // image principale OG
         width: 1200,
         height: 630,
-        alt: 'Flora Studio - Fleurs de prestige Casablanca',
+        alt: 'Fiora Studio - Fleurs de prestige Casablanca',
       },
     ],
   },
@@ -50,10 +50,10 @@ export const metadata = {
   /* ─── Twitter / X Preview ─── */
   twitter: {
     card: 'summary_large_image',
-    title: 'Flora Studio — Fleurs de Prestige, Casablanca',
+    title: 'Fiora Studio — Fleurs de Prestige, Casablanca',
     description:
       "Bouquets d'exception livrés le jour même à Casablanca.",
-    images: ['/flora-studio-og.png'],
+    images: ['/og/fiora-studio-og.jpg'],
   },
 
   /* ─── Robots SEO ─── */
@@ -65,15 +65,15 @@ export const metadata = {
   /* ─── Icônes navigateur ─── */
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: '/icons/favicon.ico' },
       { url: '/icon-32.png', sizes: '32x32', type: 'image/png' },
       { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-touch-icon.png' }],
+    apple: [{ url: '/icons/apple-touch-icon.png' }],
   },
 
   /* ─── Base URL SEO ─── */
-  metadataBase: new URL('https://flora-studio-ma.vercel.app'), // à remplacer par ton vrai domaine
+  metadataBase: new URL('https://fiorastudio.ma'), // à remplacer par ton vrai domaine
 
   alternates: {
     canonical: '/',

@@ -54,7 +54,7 @@ export default function Header() {
         aria-label="Navigation principale"
       >
         <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
-          <span className={styles.logoText}>Flora Studio</span>
+          <span className={styles.logoText}>Fiora Studio</span>
           <span className={styles.logoDot} aria-hidden />
         </Link>
 

@@ -1,9 +1,9 @@
 import AProposPage from '@/components/AProposPage'
 
 export const metadata = {
-  title: 'À propos — Flora · Fleurs de Prestige, Casablanca',
+  title: 'À propos — Fiora · Fleurs de Prestige, Casablanca',
   description:
-    'Flora est une maison florale casablancaise spécialisée dans les bouquets d\'exception. Livraison le jour même, préparation à la main, engagement qualité.',
+    'Fiora est une maison florale casablancaise spécialisée dans les bouquets d\'exception. Livraison le jour même, préparation à la main, engagement qualité.',
 }
 
 export default function Page() {

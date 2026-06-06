@@ -1,6 +1,6 @@
 /**
  * ╔══════════════════════════════════════════════════════════════╗
- * ║  Flora — cart.js                                            ║
+ * ║  Fiora — cart.js                                            ║
  * ║  Zustand store · localStorage persistence                   ║
  * ║  Actions : addItem · removeItem · updateQty · clearCart     ║
  * ╚══════════════════════════════════════════════════════════════╝
@@ -145,7 +145,7 @@ export const useCartStore = create(
 
     /* ── Persistence localStorage ─────────────────────────────── */
     {
-      name:    'flora-cart',
+      name:    'i-cart',
       storage: createJSONStorage(() => localStorage),
 
       /* Ne persister que les items, pas les fonctions dérivées */

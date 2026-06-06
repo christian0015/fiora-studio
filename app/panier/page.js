@@ -119,7 +119,7 @@ export default function PanierPage() {
       ? `\nClient : ${[firstName, lastName].filter(Boolean).join(' ')}${phone ? ' | ' + phone : ''}`
       : ''
     return encodeURIComponent(
-      `Bonjour Flora *\n\nCommande :\n\n${lines}\n\nSous-total : ${formatPrice(subtotal)}\nLivraison : ${formatPrice(deliveryFee)}\nTotal : ${formatPrice(total)}${clientLine}\nAdresse : ${address || 'a preciser'}\n${note ? '\nNote : ' + note : ''}\n\nMerci !`
+      `Bonjour Fiora *\n\nCommande :\n\n${lines}\n\nSous-total : ${formatPrice(subtotal)}\nLivraison : ${formatPrice(deliveryFee)}\nTotal : ${formatPrice(total)}${clientLine}\nAdresse : ${address || 'a preciser'}\n${note ? '\nNote : ' + note : ''}\n\nMerci !`
     )
   }, [items, subtotal, deliveryFee, total, firstName, lastName, phone, address, note])
 
@@ -190,7 +190,7 @@ export default function PanierPage() {
 
       <div className={styles.topBar}>
         <nav className={styles.breadcrumb}>
-          <Link href="/" className={styles.breadLink}>Flora</Link>
+          <Link href="/" className={styles.breadLink}>Fiora</Link>
           <span className={styles.breadSep}>·</span>
           <span className={styles.breadCurrent}>{t.cart}</span>
         </nav>

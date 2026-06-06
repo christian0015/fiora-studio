@@ -1,7 +1,7 @@
 import Hero from './Hero'
 
 export const metadata = {
-  title: 'Flora — Fleurs de Prestige, Casablanca',
+  title: 'Fiora — Fleurs de Prestige, Casablanca',
   description:
     'Bouquets d\'exception préparés à la main et livrés le jour même à Casablanca. Offrez une intention, une émotion élégante.',
 }

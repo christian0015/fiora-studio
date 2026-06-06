@@ -84,7 +84,7 @@ export default function OccasionPage({ occasion, flowers = [], otherOccasions })
           {/* Colonne gauche — texte */}
           <div className={styles.heroLeft}>
             <p data-op="eyebrow" className={styles.breadcrumb}>
-              <Link href="/" className={styles.breadLink}>Flora Studio</Link>
+              <Link href="/" className={styles.breadLink}>Fiora Studio</Link>
               <span className={styles.breadSep}>·</span>
               <Link href="/boutique" className={styles.breadLink}>Boutique</Link>
               <span className={styles.breadSep}>·</span>
@@ -255,7 +255,7 @@ export default function OccasionPage({ occasion, flowers = [], otherOccasions })
             </h3>
           </div>
           <a
-            href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Bonjour Flora, je cherche un bouquet ${label.toLowerCase()} à Casablanca.`)}`}
+            href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Bonjour Fiora, je cherche un bouquet ${label.toLowerCase()} à Casablanca.`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.waBandBtn}

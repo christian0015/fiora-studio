@@ -88,7 +88,7 @@ export default function AProposPage() {
             une intention.</em>
           </h1>
           <p className={styles.heroSub}>
-            Flora est une maison florale casablancaise. Chaque bouquet est une décision
+            Fiora Studio est une maison florale casablancaise. Chaque bouquet est une décision
             réfléchie — une manière sérieuse et élégante d'exprimer ce que les mots
             ne disent pas toujours assez bien.
           </p>

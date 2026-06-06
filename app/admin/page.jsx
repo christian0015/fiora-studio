@@ -51,7 +51,7 @@ export default function AdminDashboard() {
       <header className="page-header">
         <div>
           <h1 className="page-title">Tableau de bord</h1>
-          <p className="page-sub">Vue d'ensemble de l'activité Flora Studio</p>
+          <p className="page-sub">Vue d'ensemble de l'activité Fiora Studio</p>
         </div>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <Link href="/admin/flowers/create" className="btn-primary">＋ Ajouter un produit</Link>

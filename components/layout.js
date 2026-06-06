@@ -22,18 +22,18 @@ const dmSans = DM_Sans({
 /* ─── Metadata ───────────────────────────────────────── */
 export const metadata = {
   title: {
-    default: 'Flora — Fleurs de Prestige, Casablanca',
-    template: '%s — Flora',
+    default: 'Fiora Studio — Fleurs de Prestige, Casablanca',
+    template: '%s — Fiora Studio',
   },
   description:
     'Bouquets d\'exception préparés à la main et livrés le jour même à Casablanca. Offrez une intention, une émotion élégante.',
   keywords: ['fleurs Casablanca', 'bouquets premium', 'livraison fleurs', 'fleuriste Casablanca'],
-  authors: [{ name: 'Flora' }],
+  authors: [{ name: 'Fiora Studio' }],
   openGraph: {
     type: 'website',
     locale: 'fr_MA',
-    siteName: 'Flora',
-    title: 'Flora — Fleurs de Prestige, Casablanca',
+    siteName: 'Fiora Studio',
+    title: 'Fiora Studio — Fleurs de Prestige, Casablanca',
     description: 'Bouquets d\'exception livrés le jour même à Casablanca.',
   },
   robots: { index: true, follow: true },

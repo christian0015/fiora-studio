@@ -51,7 +51,7 @@ const FAQ_ITEMS: FAQItem[] = [
   {
     id:       'qualite-duree',
     category: 'qualite',
-    question: 'Combien de temps durent les bouquets Flora ?',
+    question: 'Combien de temps durent les bouquets Fiora Studio ?',
     answer:   'Nos compositions fraîches durent en moyenne 5 à 10 jours avec les bons soins : eau propre renouvelée tous les deux jours, loin des sources de chaleur, tiges recoupées en biais. Nous glissons une fiche de conseils dans chaque livraison.',
   },
   {
@@ -203,7 +203,7 @@ export default function FAQ() {
             className={styles.ctaBtn}
           >
             <WhatsAppIcon />
-            Contacter Flora
+            Contacter Fiora Studio
           </a>
         </div>
 

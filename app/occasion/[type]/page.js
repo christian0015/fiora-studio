@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   if (!occ) return {}
 
   return {
-    title: `${occ.label} — Flora Casablanca`,
+    title: `${occ.label} — Fiora Casablanca`,
     description: occ.longDesc,
     keywords: [
       `fleurs ${occ.label.toLowerCase()} casablanca`,

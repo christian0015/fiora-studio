@@ -59,7 +59,7 @@ export default function PanierPage() {
       `• ${it.name} (${it.selectedSize?.label ?? ''}) × ${it.qty}  →  ${formatPrice((it.selectedSize?.price ?? it.price) * it.qty)}`
     ).join('\n')
     return encodeURIComponent(
-      `Bonjour Flora 🌸\n\nJe souhaite passer commande :\n\n${lines}\n\nTotal : ${formatPrice(total)}\n\nAdresse : ${address || '(à préciser)'}\nTél : ${phone || '(à préciser)'}\n${note ? `\nNote : ${note}` : ''}\n\nMerci !`
+      `Bonjour Fiora Studio 🌸\n\nJe souhaite passer commande :\n\n${lines}\n\nTotal : ${formatPrice(total)}\n\nAdresse : ${address || '(à préciser)'}\nTél : ${phone || '(à préciser)'}\n${note ? `\nNote : ${note}` : ''}\n\nMerci !`
     )
   }, [items, total, address, phone, note])
 
@@ -111,7 +111,7 @@ export default function PanierPage() {
 
       {/* ── Breadcrumb ─────────────────────────────────────── */}
       <nav className={styles.breadcrumb} aria-label="Fil d'ariane">
-        <Link href="/"         className={styles.breadLink}>Flora</Link>
+        <Link href="/"         className={styles.breadLink}>Fiora Studio</Link>
         <span className={styles.breadSep} aria-hidden>·</span>
         <span className={styles.breadCurrent}>Panier</span>
       </nav>

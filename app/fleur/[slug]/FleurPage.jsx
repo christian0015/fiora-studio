@@ -96,7 +96,7 @@ export default function FleurPage({ flower, similar }) {
   }, [flower, selectedSize, qty, isOutOfStock, addToCart])
 
   const waText = encodeURIComponent(
-    `Bonjour Flora 🌸\nJe souhaite commander :\n` +
+    `Bonjour Fiora 🌸\nJe souhaite commander :\n` +
     `• ${flower.name}\n` +
     `• Taille : ${selectedSize.label}\n` +
     `• Qté : ${qty}\n` +
@@ -111,7 +111,7 @@ export default function FleurPage({ flower, similar }) {
 
       {/* ── Breadcrumb ─────────────────────────────── */}
       <nav className={styles.breadcrumb} aria-label="Fil d'ariane">
-        <Link href="/"         className={styles.breadLink}>Flora</Link>
+        <Link href="/"         className={styles.breadLink}>Fiora</Link>
         <span className={styles.breadSep} aria-hidden>·</span>
         <Link href="/boutique" className={styles.breadLink}>Boutique</Link>
         <span className={styles.breadSep} aria-hidden>·</span>

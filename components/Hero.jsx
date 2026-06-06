@@ -108,7 +108,7 @@ export default function Hero() {
           // src="/images/hero-flower.jpg"
           src="/images/hero-flower1.png"
           // src="/images/hero-flower2.png"
-          alt="Bouquet de roses premium Flora Studio"
+          alt="Bouquet de roses premium Fiora Studio"
           width={560}
           height={700}
           priority

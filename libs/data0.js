@@ -1,6 +1,6 @@
 /**
  * ╔══════════════════════════════════════════════════════════════╗
- * ║  Flora — data.js  (source de vérité centrale)               ║
+ * ║  Fiora — data.js  (source de vérité centrale)               ║
  * ║  Transition future : remplacer getXxx() par fetch('/api/xx') ║
  * ╚══════════════════════════════════════════════════════════════╝
  */
@@ -9,15 +9,15 @@
    SITE CONFIG
    ───────────────────────────────────────────────────────────── */
 export const siteConfig = {
-  name:        'Flora Studio',
+  name:        'Fiora Studio',
   tagline:     "L'art de l'émotion florale",
   city:        'Casablanca',
   currency:    'MAD',
   whatsapp:    '212634699940',
   deliveryFee: 0,          // gratuit dès maintenant
   deliveryNote:'Livraison gratuite à Casablanca · Même jour avant 17h',
-  instagram:   'https://instagram.com/flora.casablanca',
-  tiktok:      'https://tiktok.com/@flora.casablanca',
+  instagram:   'https://instagram.com/fiorastudio.casablanca',
+  tiktok:      'https://tiktok.com/@fiorastudio.casablanca',
 }
 
 /* ─────────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 // libs/checkout.js
 /**
  * ╔══════════════════════════════════════════════════════════════╗
- * ║  Flora Studio — checkout.js                                 ║
+ * ║  Fiora Studio — checkout.js                                 ║
  * ║  Config statique + helpers async pour les commandes         ║
  * ╚══════════════════════════════════════════════════════════════╝
  *

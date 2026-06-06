@@ -26,7 +26,7 @@ export default function Footer() {
         {/* ── Brand col ─────────────────────────────── */}
         <div className={styles.brand}>
           <Link href="/" className={styles.logo}>
-            <span className={styles.logoText}>Flora Studio</span>
+            <span className={styles.logoText}>Fiora Studio</span>
             <span className={styles.logoDot} aria-hidden />
           </Link>
           <p className={styles.tagline}>
@@ -71,7 +71,7 @@ export default function Footer() {
       {/* ── Bottom bar ──────────────────────────────── */}
       <div className={styles.bottom}>
         <p className={styles.copy}>
-          © {year} Flora Studio — Casablanca. Tous droits réservés.
+          © {year} Fiora Studio — Casablanca. Tous droits réservés.
         </p>
         <div className={styles.socials}>
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"

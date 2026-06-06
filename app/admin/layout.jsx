@@ -23,7 +23,7 @@ export default function AdminLayout({ children }) {
         <aside className="sidebar">
           <div className="sidebar-logo">
             <span className="logo-mark">✦</span>
-            <span className="logo-text">Flora<em>Studio</em></span>
+            <span className="logo-text">Fiora<em>Studio</em></span>
           </div>
 
           <nav className="sidebar-nav">

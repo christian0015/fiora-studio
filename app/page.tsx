@@ -84,7 +84,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      
+        
+        <FloralExperience3D />
         {/* Prochaines sections à ajouter ici dans l'ordre : */}
          {/*– Section 3D sombre (wow premium) */}       
         <FloralExperience />
@@ -98,7 +99,6 @@ export default function HomePage() {
         {/*– Explorer par émotion */}
         <OccasionGrid />
         
-        <FloralExperience3D />
 
         <FeaturedFlowers02 />     
 

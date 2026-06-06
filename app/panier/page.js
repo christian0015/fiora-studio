@@ -10,6 +10,8 @@ import {
   getShippingFee,
   isCODAvailable,
   OWNER_WHATSAPP,
+  STORE_MAPS_URL,
+  STORE_ADDRESS,
   createOrder,
 } from '@/libs/checkout'
 import { useCartStore } from '@/libs/cart'
@@ -43,7 +45,7 @@ export default function PanierPage() {
   const t = getI18n(locale)
 
   const [payMethod,  setPayMethod]  = useState(null)
-  const [shipMethod, setShipMethod] = useState('casablanca_short')
+  const [shipMethod, setShipMethod] = useState('casa_near')
   const [firstName,  setFirstName]  = useState('')
   const [lastName,   setLastName]   = useState('')
   const [email,      setEmail]      = useState('')
@@ -243,6 +245,15 @@ export default function PanierPage() {
           {/* ── Livraison ──────────────────────────────────── */}
           <div className={styles.modeBlock}>
             <p className={styles.modeTitle}>{t.shippingMethod}</p>
+            {/* Lien Maps — aide le client à évaluer sa distance sans API */}
+            <p style={{fontSize:'0.72rem', color:'var(--warm-gray)', lineHeight:1.5, marginBottom:'0.5rem'}}>
+              {locale === 'ar'
+                ? <>{'متأكد من المسافة؟ '}<a href={STORE_MAPS_URL} target="_blank" rel="noopener noreferrer" style={{color:'var(--champagne)', textDecoration:'underline'}}>{'موقع المتجر على الخريطة'}</a></>
+                : locale === 'en'
+                  ? <>{'Not sure of your distance? '}<a href={STORE_MAPS_URL} target="_blank" rel="noopener noreferrer" style={{color:'var(--champagne)', textDecoration:'underline'}}>{'See our location on Google Maps'}</a></>
+                  : <>{'Pas sûr de votre distance ? '}<a href={STORE_MAPS_URL} target="_blank" rel="noopener noreferrer" style={{color:'var(--champagne)', textDecoration:'underline'}}>{'Voir notre emplacement sur Google Maps'}</a></>
+              }
+            </p>
             <div className={styles.modeOptions} role="radiogroup">
               {enabledShipMethods.map(m => (
                 <button key={m.id} role="radio" aria-checked={shipMethod === m.id}

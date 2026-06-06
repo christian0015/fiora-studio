@@ -1,7 +1,7 @@
 // libs/checkout.js
 /**
  * ╔══════════════════════════════════════════════════════════════╗
- * ║  Flora Studio — checkout.js                                 ║
+ * ║  Fiora Studio — checkout.js                                 ║
  * ║  Config statique + helpers async pour les commandes         ║
  * ╚══════════════════════════════════════════════════════════════╝
  *
@@ -17,12 +17,12 @@
 // ============================================================
 
 /** Numéro WhatsApp du propriétaire (sans +) */
-export const OWNER_WHATSAPP = "212600954099"
+export const OWNER_WHATSAPP = "212713088840"
 
 /** Informations Western Union */
 export const WESTERN_UNION_INFO = {
   fullName:    "Zakaria Elmalhi",
-  phone:       "+212600954099",
+  phone:       "+212713088840",
   receiveMode: "Cash Pick-up",
 }
 
@@ -74,31 +74,64 @@ export function isCODAvailable() {
 
 // ============================================================
 // MÉTHODES DE LIVRAISON
+// ─────────────────────────────────────────────────────────────
+// Lien Google Maps du magasin — affiché dans la page pour que
+// le client évalue lui-même sa distance (pas d'API Google Maps).
 // ============================================================
+export const STORE_MAPS_URL = "https://maps.app.goo.gl/fYRRs98xehM9L8t76"
+export const STORE_ADDRESS  = "Casablanca — Oasis / Hay Hassani"
+
 export const SHIPPING_METHODS = [
   {
-    id:          "casablanca_free",
-    city:        "Casablanca",
-    label:       { fr: "Casablanca — Livraison gratuite", en: "Casablanca — Free delivery", ar: "الدار البيضاء — توصيل مجاني" },
-    fee:         0,
-    note:        { fr: "Livraison gratuite · Même jour avant 17h", en: "Free delivery · Same day before 5pm", ar: "توصيل مجاني · نفس اليوم قبل الساعة 5" },
-    enabled:     true,
+    // < 3 km du magasin → 40 DH
+    id:      "casa_near",
+    city:    "Casablanca",
+    label:   {
+      fr: "Casablanca — Proche (< 3 km)",
+      en: "Casablanca — Nearby (< 3 km)",
+      ar: "الدار البيضاء — قريب (< 3 كم)",
+    },
+    fee:     40,
+    note:    {
+      fr: "40 DH · Même jour si commande avant 18h30",
+      en: "40 DH · Same day if order before 6:30 PM",
+      ar: "40 درهم · نفس اليوم إذا طلبت قبل 6:30 مساءً",
+    },
+    enabled: true,
   },
   {
-    id:          "casablanca_paid",
-    city:        "Casablanca",
-    label:       { fr: "Casablanca — Zone éloignée (+5 km)", en: "Casablanca — Far zone (+5 km)", ar: "الدار البيضاء — منطقة بعيدة (+5 كم)" },
-    fee:         35,
-    note:        { fr: "35 DH pour les zones au-delà de 5 km", en: "35 DH for areas beyond 5 km", ar: "35 درهم للمناطق التي تتجاوز 5 كم" },
-    enabled:     true,
+    // > 3 km du magasin → 60 DH
+    id:      "casa_far",
+    city:    "Casablanca",
+    label:   {
+      fr: "Casablanca — Éloigné (> 3 km)",
+      en: "Casablanca — Far (> 3 km)",
+      ar: "الدار البيضاء — بعيد (> 3 كم)",
+    },
+    fee:     60,
+    note:    {
+      fr: "60 DH · Même jour si commande avant 18h30",
+      en: "60 DH · Same day if order before 6:30 PM",
+      ar: "60 درهم · نفس اليوم إذا طلبت قبل 6:30 مساءً",
+    },
+    enabled: true,
   },
   {
-    id:          "marrakech",
-    city:        "Marrakech",
-    label:       { fr: "Marrakech — Livraison rapide", en: "Marrakech — Fast delivery", ar: "مراكش — توصيل سريع" },
-    fee:         35,
-    note:        { fr: "Frais variables selon la distance", en: "Fees vary based on distance", ar: "الرسوم تختلف حسب المسافة" },
-    enabled:     true,
+    // Hors Casablanca — disponible à partir de cette semaine
+    id:      "hors_casa",
+    city:    "Hors Casablanca",
+    label:   {
+      fr: "Hors Casablanca",
+      en: "Outside Casablanca",
+      ar: "خارج الدار البيضاء",
+    },
+    fee:     100,
+    note:    {
+      fr: "À partir de 100 DH · Disponible à partir de la semaine prochaine",
+      en: "From 100 DH · Available starting next week",
+      ar: "ابتداءً من 100 درهم · متاح من الأسبوع القادم",
+    },
+    enabled: true,
   },
 ]
 
@@ -148,7 +181,7 @@ export const CHECKOUT_I18N = {
 Pour payer via Western Union :
 1. Ouvrez l'application Western Union ou rendez-vous dans une agence.
 2. Entrez les informations de transfert :
-   Nom : Zakaria Elmalhi | Tél : +212600954099
+   Nom : Zakaria Elmalhi | Tél : +212713088840
 3. ⚠️ Lors du choix du mode de réception, sélectionnez « Retrait d'espèces » (Cash Pick-up).
 4. Une fois le transfert effectué, envoyez-nous le code MTCN (numéro de suivi) pour valider votre commande.
 Une copie de ces instructions vous sera envoyée par email après la commande.`,
@@ -210,7 +243,7 @@ Une copie de ces instructions vous sera envoyée par email après la commande.`,
       western_union: `
 How to pay via Western Union:
 1. Open the Western Union app or visit a local branch.
-2. Enter the transfer details: Name: Zakaria Elmalhi | Phone: +212600954099
+2. Enter the transfer details: Name: Zakaria Elmalhi | Phone: +212713088840
 3. ⚠️ When asked how I should receive the money, select "Cash Pick-up".
 4. Once sent, share the MTCN (tracking number) with us to validate your order.
 You will get a copy of these instructions to your email after placing an order.`,
@@ -272,7 +305,7 @@ You will get a copy of these instructions to your email after placing an order.`
       western_union: `
 كيفية الدفع عبر Western Union:
 ١. افتح تطبيق Western Union أو زر أحد الفروع.
-٢. أدخل بيانات التحويل: الاسم: Zakaria Elmalhi | الهاتف: +212600954099
+٢. أدخل بيانات التحويل: الاسم: Zakaria Elmalhi | الهاتف: +212713088840
 ٣. ⚠️ عند اختيار طريقة الاستلام، حدد خيار "استلام نقدي" (Cash Pick-up).
 ٤. بعد التحويل، أرسل لنا رمز MTCN (رقم التتبع) لتأكيد طلبك.
 ستصلك نسخة من هذه التعليمات عبر البريد الإلكتروني بعد تقديم الطلب.`,

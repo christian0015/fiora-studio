@@ -152,7 +152,7 @@ export async function POST(request) {
         locale:     body.customer?.locale     || "fr",
       },
       items: body.items.map(it => ({
-        flowerId:   it.flowerId   || it._id || "",
+        flowerId:   it.flowerId   || it._id || it.id || "unknown",
         slug:       it.slug       || "",
         name:       it.name       || "",
         image:      it.image      || it.images?.[0] || "",
@@ -165,7 +165,7 @@ export async function POST(request) {
       deliveryFee,
       total,
       currency:       body.currency       || "MAD",
-      shippingMethod: body.shippingMethod || "casablanca_short",
+      shippingMethod: body.shippingMethod || "casa_near",
       paymentMethod:  body.paymentMethod,
       paymentRef:     body.paymentRef     || "",
       status:         "pending",

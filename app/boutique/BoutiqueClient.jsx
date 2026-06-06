@@ -207,7 +207,7 @@ export default function BoutiqueClient() {
     <div className={styles.root}>
 
       {/* ══ Sentinel (observer pour sticky) ══════════════ */}
-      <div id="boutique-sentinel" style={{ height: 1 }} />
+      <div id="boutique-sentinel" style={{ height: 0 }} />
 
       {/* ══ STICKY MOBILE — catégorie + sous-catégorie ══ */}
       <div ref={stickyRef} className={styles.stickyBar} aria-hidden={!activeCatLabel}>

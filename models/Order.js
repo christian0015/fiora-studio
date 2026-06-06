@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 
 const OrderItemSchema = new mongoose.Schema(
   {
-    flowerId:    { type: String, required: true },
+    flowerId:    { type: String, default: "" },
     slug:        { type: String, required: true },
     name:        { type: String, required: true },
     image:       { type: String, default: "" },
@@ -51,8 +51,8 @@ const OrderSchema = new mongoose.Schema(
     shippingMethod: {
       type: String,
       // IDs from checkout.js SHIPPING_METHODS
-      enum: ["casablanca_short", "casablanca_long", "outside_casablanca", "other"],
-      default: "casablanca_short",
+      enum: ["casa_near", "casa_far", "hors_casa"],
+      default: "casa_near",
     },
 
     // ── Paiement ────────────────────────────────────────────────

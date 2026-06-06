@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { formatPrice, getTopEmotions, siteConfig } from '@/libs/data'
+import { createOrder, OWNER_WHATSAPP } from '@/libs/checkout'
 import { useCartStore } from '@/libs/cart'
 import styles from './FlowerCard.module.css'
 
@@ -17,6 +18,7 @@ export default function FlowerCard({ flower, priority = false, variant = 'defaul
   const [imgLoaded,  setImgLoaded]  = useState(false)
   const [hovered,    setHovered]    = useState(false)
   const [addedAnim,  setAddedAnim]  = useState(false)
+  const [waLoading,  setWaLoading]  = useState(false)
 
   const addToCart = useCartStore(s => s.addItem)
 
@@ -37,9 +39,39 @@ export default function FlowerCard({ flower, priority = false, variant = 'defaul
     setTimeout(() => setAddedAnim(false), 1600)
   }, [flower, isOutOfStock, addToCart])
 
-  const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
-    `Bonjour, je souhaite commander : ${flower.name} (${formatPrice(displayPrice)})`
-  )}`
+  const handleWaOrder = useCallback(async (e) => {
+    e.preventDefault()
+    setWaLoading(true)
+    const waMessage = encodeURIComponent(
+      `Bonjour, je souhaite commander : ${flower.name} (${formatPrice(displayPrice)})`
+    )
+    try {
+      await createOrder({
+        customer: { locale: 'fr' },
+        items: [{
+          flowerId:   flower.id || flower._id || '',
+          slug:       flower.slug || '',
+          name:       flower.name,
+          image:      flower.images?.[0] || '',
+          price:      displayPrice,
+          qty:        1,
+          size:       flower.sizes?.[0]?.label  || null,
+          sizeHeight: flower.sizes?.[0]?.height || null,
+        }],
+        subtotal:       displayPrice,
+        deliveryFee:    0,
+        total:          displayPrice,
+        shippingMethod: 'casa_near',
+        paymentMethod:  'whatsapp',
+        note:           `Commande rapide depuis la carte produit : ${flower.name}`,
+      })
+    } catch (_) {
+      // Échec silencieux — WA s'ouvre quand même
+    } finally {
+      setWaLoading(false)
+      window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${waMessage}`, '_blank')
+    }
+  }, [flower, displayPrice])
 
   return (
     <article
@@ -163,15 +195,14 @@ export default function FlowerCard({ flower, priority = false, variant = 'defaul
             </button>
 
             {/* WhatsApp */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={handleWaOrder}
+              disabled={waLoading}
               className={styles.btnWa}
               aria-label={`Commander ${flower.name} via WhatsApp`}
             >
               <WhatsAppIcon />
-            </a>
+            </button>
           </div>
         </div>
       </div>

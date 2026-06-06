@@ -8,6 +8,7 @@ import {
   occasions,
   siteConfig,
 } from '@/libs/data'
+import { createOrder, OWNER_WHATSAPP } from '@/libs/checkout'
 import { useCartStore } from '@/libs/cart'
 import FlowerCard from '@/components/FlowerCard'
 import styles from './FleurPage.module.css'
@@ -26,6 +27,7 @@ export default function FleurPage({ flower, similar }) {
   const [qty,          setQty]          = useState(1)
   const [addedAnim,    setAddedAnim]    = useState(false)
   const [imgZoomed,    setImgZoomed]    = useState(false)
+  const [waLoading,    setWaLoading]    = useState(false)
 
   const addToCart = useCartStore(s => s.addItem)
 
@@ -95,15 +97,45 @@ export default function FleurPage({ flower, similar }) {
     setTimeout(() => setAddedAnim(false), 1800)
   }, [flower, selectedSize, qty, isOutOfStock, addToCart])
 
-  const waText = encodeURIComponent(
-    `Bonjour Fiora 🌸\nJe souhaite commander :\n` +
-    `• ${flower.name}\n` +
-    `• Taille : ${selectedSize.label}\n` +
-    `• Qté : ${qty}\n` +
-    `• Prix : ${formatPrice(selectedSize.price * qty)}\n\n` +
-    `Merci !`
-  )
-  const waUrl = `https://wa.me/${siteConfig.whatsapp}?text=${waText}`
+  /* ── WhatsApp order — enregistre d'abord en DB, puis ouvre WA ── */
+  const handleWaOrder = useCallback(async () => {
+    setWaLoading(true)
+    const price = selectedSize.price
+    const waMessage = encodeURIComponent(
+      `Bonjour Fiora 🌸\nJe souhaite commander :\n` +
+      `• ${flower.name}\n` +
+      `• Taille : ${selectedSize.label}\n` +
+      `• Qté : ${qty}\n` +
+      `• Prix : ${formatPrice(price * qty)}\n\n` +
+      `Merci !`
+    )
+    try {
+      await createOrder({
+        customer: { locale: 'fr' },
+        items: [{
+          flowerId:   flower.id || flower._id || '',
+          slug:       flower.slug || '',
+          name:       flower.name,
+          image:      flower.images?.[0] || '',
+          price,
+          qty,
+          size:       selectedSize.label  || null,
+          sizeHeight: selectedSize.height || null,
+        }],
+        subtotal:       price * qty,
+        deliveryFee:    0,
+        total:          price * qty,
+        shippingMethod: 'casa_near',
+        paymentMethod:  'whatsapp',
+        note:           `Commande directe depuis la page produit : ${flower.name}`,
+      })
+    } catch (_) {
+      // Échec silencieux — on ouvre WA quand même pour ne pas bloquer l'user
+    } finally {
+      setWaLoading(false)
+      window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${waMessage}`, '_blank')
+    }
+  }, [flower, selectedSize, qty])
 
   /* ─────────────────────────────────────────────────── */
   return (
@@ -325,16 +357,15 @@ export default function FleurPage({ flower, similar }) {
             </button>
 
             {/* WhatsApp */}
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={handleWaOrder}
+              disabled={waLoading || isOutOfStock}
               className={styles.btnWa}
               aria-label="Commander via WhatsApp"
             >
               <WaIcon />
-              Commander via WhatsApp
-            </a>
+              {waLoading ? 'Enregistrement…' : 'Commander via WhatsApp'}
+            </button>
           </div>
 
           {/* Livraison */}

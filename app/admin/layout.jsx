@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 
 const navItems = [
   { href: "/admin", label: "📊 Dashboard" },
@@ -14,16 +15,29 @@ const navItems = [
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <>
       <style>{globalAdminStyles}</style>
       <div className="admin-shell">
-        {/* ── Sidebar unique pour tout l'admin ──────────────── */}
-        <aside className="sidebar">
+
+        {/* ── Overlay (clic dehors = ferme) ─────────────────── */}
+        {menuOpen && (
+          <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} />
+        )}
+
+        {/* ── Sidebar ───────────────────────────────────────── */}
+        <aside className={`sidebar${menuOpen ? " sidebar-open" : ""}`}>
           <div className="sidebar-logo">
             <span className="logo-mark">✦</span>
             <span className="logo-text">Fiora<em>Studio</em></span>
+            {/* Croix fermeture mobile */}
+            <button
+              className="sidebar-close"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Fermer le menu"
+            >✕</button>
           </div>
 
           <nav className="sidebar-nav">
@@ -33,6 +47,7 @@ export default function AdminLayout({ children }) {
                 key={item.href}
                 href={item.href}
                 className={`nav-item ${pathname === item.href ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)}
               >
                 {item.label}
               </Link>
@@ -40,7 +55,7 @@ export default function AdminLayout({ children }) {
           </nav>
 
           <div className="sidebar-footer">
-            <Link href="/" target="_blank" className="nav-item">
+            <Link href="/" target="_blank" className="nav-item" onClick={() => setMenuOpen(false)}>
               ↗ Voir le site
             </Link>
           </div>
@@ -48,6 +63,14 @@ export default function AdminLayout({ children }) {
 
         {/* ── Contenu Dynamique ────────────────────────────── */}
         <main className="main-content">
+          {/* Burger mobile — à l'intérieur du main pour éviter les conflits de z-index */}
+          <button
+            className="burger"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Ouvrir le menu"
+          >
+            <span /><span />
+          </button>
           {children}
         </main>
       </div>
@@ -146,7 +169,87 @@ const globalAdminStyles = `
 
   @media (max-width: 900px) {
     .admin-shell { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .main-content { padding: 1.5rem; }
+    .main-content { padding: 1.5rem; padding-top: 4rem; }
+
+    /* Burger — 2 lignes */
+    .burger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      position: fixed;
+      top: 25.9rem;
+      left: 1rem;
+      z-index: 2000;
+      background: var(--surface);
+      background: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 0.6rem;
+      cursor: pointer;
+      width: 38px;
+      height: 38px;
+    }
+    .burger span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+
+    /* Overlay */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 149;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(3px);
+    }
+
+    /* Sidebar — drawer horizontal */
+    .sidebar {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: min(280px, 85vw);
+      z-index: 150;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.5rem 1.25rem;
+      box-shadow: none;
+    }
+    .sidebar-open {
+      transform: translateX(0);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.4);
+    }
+
+    /* Croix fermeture */
+    .sidebar-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline-start: auto;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 0.85rem;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .sidebar-close:hover { color: var(--text); }
+  }
+
+  @media (min-width: 901px) {
+    .burger { display: none; }
+    .sidebar-close { display: none; }
+    .sidebar-overlay { display: none; }
   }
 `

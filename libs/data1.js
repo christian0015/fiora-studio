@@ -90,28 +90,66 @@ export const occasions = [
    CATEGORIES & SOUS-CATÉGORIES
    Structure : category → sous-catégories optionnelles
    ───────────────────────────────────────────────────────────── */
+// export const categories = [
+//   {
+//     slug:          'fleur-fraiche',
+//     label:         'Fleur Fraîche',
+//     description:   "La vivacité et le parfum du végétal vivant.",
+//     icon:          '❀',
+//     // Les sous-catégories décrivent le mode de présentation
+//     subcategories: [
+//       { slug: 'bouquet',      label: 'Bouquets'     },
+//       { slug: 'composition',  label: 'Compositions' },
+//       { slug: 'vrac',         label: 'À la tige'    },
+//     ],
+//   },
+//   {
+//     slug:          'fleur-eternelle',
+//     label:         'Fleur Éternelle',
+//     description:   "Des fleurs préservées qui défient le temps.",
+//     icon:          '◇',
+//     subcategories: [
+//       { slug: 'bouquet',      label: 'Bouquets'     },
+//       { slug: 'coffret',      label: 'Coffrets'     },
+//       { slug: 'cadre',        label: 'Cadres fleuris'},
+//     ],
+//   },
+//   {
+//     slug:          'fleur-sechee',
+//     label:         'Fleur Séchée',
+//     description:   "L'authenticité naturelle des teintes fanées.",
+//     icon:          '∿',
+//     subcategories: [
+//       { slug: 'bouquet',      label: 'Bouquets'     },
+//       { slug: 'composition',  label: 'Compositions' },
+//     ],
+//   },
+//   {
+//     slug:          'plante',
+//     label:         'Plante',
+//     description:   "Du vert qui dure, à offrir ou à s'offrir.",
+//     icon:          '♧',
+//     // Pas de sous-catégories pour cette catégorie
+//     subcategories: [],
+//   },
+// ]
+
+/* ─────────────────────────────────────────────────────────────
+   CATEGORIES & SOUS-CATÉGORIES
+   Structure : category → sous-catégories optionnelles
+   ───────────────────────────────────────────────────────────── */
 export const categories = [
   {
-    slug:          'fleur-fraiche',
-    label:         'Fleur Fraîche',
-    description:   "La vivacité et le parfum du végétal vivant.",
+    slug:          'fraicheur-de-saison',
+    label:         'Fraîcheur de Saison',
+    description:   'La vivacité et le parfum du végétal vivant.',
     icon:          '❀',
-    // Les sous-catégories décrivent le mode de présentation
     subcategories: [
-      { slug: 'bouquet',      label: 'Bouquets'     },
-      { slug: 'composition',  label: 'Compositions' },
-      { slug: 'vrac',         label: 'À la tige'    },
-    ],
-  },
-  {
-    slug:          'fleur-eternelle',
-    label:         'Fleur Éternelle',
-    description:   "Des fleurs préservées qui défient le temps.",
-    icon:          '◇',
-    subcategories: [
-      { slug: 'bouquet',      label: 'Bouquets'     },
-      { slug: 'coffret',      label: 'Coffrets'     },
-      { slug: 'cadre',        label: 'Cadres fleuris'},
+      { slug: 'rose-fraiche', label: 'Roses Fraîches' },
+      { slug: 'autre-fleur',   label: 'Autres Fleurs' },
+      { slug: 'bouquet',       label: 'Bouquets' },
+      { slug: 'composition',   label: 'Compositions' },
+      { slug: 'vrac',          label: 'À la tige' },
     ],
   },
   {
@@ -120,8 +158,19 @@ export const categories = [
     description:   "L'authenticité naturelle des teintes fanées.",
     icon:          '∿',
     subcategories: [
-      { slug: 'bouquet',      label: 'Bouquets'     },
-      { slug: 'composition',  label: 'Compositions' },
+      { slug: 'bouquet',     label: 'Bouquets' },
+      { slug: 'composition', label: 'Compositions' },
+    ],
+  },
+  {
+    slug:          'fleur-eternelle',
+    label:         'Fleur Éternelle',
+    description:   'Des fleurs préservées qui défient le temps.',
+    icon:          '◇',
+    subcategories: [
+      { slug: 'bouquet', label: 'Bouquets' },
+      { slug: 'coffret', label: 'Coffrets' },
+      { slug: 'cadre',   label: 'Cadres fleuris' },
     ],
   },
   {
@@ -129,10 +178,18 @@ export const categories = [
     label:         'Plante',
     description:   "Du vert qui dure, à offrir ou à s'offrir.",
     icon:          '♧',
-    // Pas de sous-catégories pour cette catégorie
     subcategories: [],
   },
-]
+  {
+    slug:          'accessoire',
+    label:         'Objets Déco',
+    description:   'Vases et accessoires pour sublimer vos fleurs.',
+    icon:          '⚱',
+    subcategories: [
+      { slug: 'vase', label: 'Vases' },
+    ],
+  },
+];
 
 /**
  * Retourne toutes les catégories

@@ -5,6 +5,7 @@ import OccasionGrid from '@/components/OccasionGrid'
 import FeaturedFlowers from '@/components/FeaturedFlowers'
 import FeaturedFlowers02 from '@/components/FeaturedFlowers02'
 import ExploreFlowers from '@/components/ExploreFlowers'
+import ExploreFlowersBubbles from '@/components/ExploreFlowersBubbles'
 import TrustSection from '@/components/TrustSection'
 import FAQ from '@/components/FAQ'
 
@@ -84,18 +85,19 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      <ExploreFlowers />
+      {/* <ExploreFlowersBubbles /> */}
         
-        <FloralExperience3D />
+        
+        {/* <FloralExperience3D /> */}
         {/* Prochaines sections à ajouter ici dans l'ordre : */}
          {/*– Section 3D sombre (wow premium) */}       
-        <FloralExperience />
 
         {/*– Fleurs populaires */}
         <FeaturedFlowers />     
         
-        <ExploreFlowers />
-        
-
+        <FloralExperience />
         {/*– Explorer par émotion */}
         <OccasionGrid />
         

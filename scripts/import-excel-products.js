@@ -9,21 +9,58 @@ const slugifyLib = require('slugify');
 // =========================
 const API_BASE_URL = 'http://localhost:3000';
 const DEFAULT_STOCK = 100;
-const DELAY_BETWEEN_REQUESTS = 500;
+const DELAY_BETWEEN_REQUESTS = 300;
 
 // =========================
-// MAPPING DES FEUILLES (version complète de ta version)
+// ORDRE D'EXÉCUTION DES FEUILLES (INVERSÉ POUR AFFICHAGE CHRONOLOGIQUE)
+// =========================
+const DESIRED_SHEET_ORDER = [
+  'Vases et Accessoires',
+  'Plantes',
+  'Collection petits bonheurs',
+  'Fraicheur de Printemps',
+  'Fleurs Séchées',
+  'Roses Préservées',
+  'Roses Fraiches',
+];
+
+// =========================
+// MAPPING DES FEUILLES GLOVO
 // =========================
 const SHEET_MAPPING = {
-  'Plantes': {
-    category: 'plante',
-    subcategory: null,
-    flowerType: 'plante',
-    tagsPrefix: ['plante', 'intérieur'],
-    occasions: ['entreprise', 'anniversaire'],
-    emotions: [{ name: 'calme', percentage: 85 }, { name: 'pureté', percentage: 75 }],
+  // Onglets ignorés explicitement
+  'Promotions': null,
+  'Top des ventes': null,
+  'For your Love': null, // Ignoré (5 on saute)
+
+  // 1. Fraîcheur de Saison (Anciennement Fleur Fraîche)
+  'Roses Fraiches': {
+    category: 'fraicheur-de-saison',
+    subcategory: 'rose-fraiche',
+    flowerType: 'rose',
+    tagsPrefix: ['fraîcheur de saison', 'roses fraîches', 'rose'],
+    occasions: ['romantique', 'anniversaire', 'mariage'],
+    emotions: [{ name: 'amour', percentage: 95 }, { name: 'joie', percentage: 85 }],
   },
-  'Fleurs séchées': {
+  'Fraicheur de Printemps': {
+    category: 'fraicheur-de-saison',
+    subcategory: 'autre-fleur',
+    flowerType: 'composition',
+    tagsPrefix: ['fraîcheur de saison', 'autres fleurs', 'printemps', 'bouquet'],
+    occasions: ['anniversaire', 'remerciement', 'elegance'],
+    emotions: [{ name: 'joie', percentage: 92 }, { name: 'fraîcheur', percentage: 88 }],
+  },
+  'Collection petits bonheurs': {
+    category: 'fraicheur-de-saison',
+    subcategory: 'autre-fleur',
+    flowerType: 'composition',
+    tagsPrefix: ['fraîcheur de saison', 'autres fleurs', 'petits bonheurs', 'bouquet'],
+    occasions: ['anniversaire', 'remerciement', 'plaisir-d-offrir'],
+    emotions: [{ name: 'joie', percentage: 90 }, { name: 'tendresse', percentage: 85 }],
+  },
+
+  // 2. Fleurs Séchées
+  'Fleurs Séchées': {
     category: 'fleur-sechee',
     subcategory: 'composition',
     flowerType: 'composition',
@@ -31,62 +68,36 @@ const SHEET_MAPPING = {
     occasions: ['elegance', 'anniversaire'],
     emotions: [{ name: 'élégance', percentage: 88 }, { name: 'tendresse', percentage: 78 }],
   },
-  'Rose Eternelles': {
+
+  // 3. Roses Éternelles / Préservées
+  'Roses Préservées': {
     category: 'fleur-eternelle',
     subcategory: 'coffret',
     flowerType: 'rose',
-    tagsPrefix: ['rose éternelle', 'cadeau'],
-    occasions: ['romantique', 'mariage'],
-    emotions: [{ name: 'amour', percentage: 95 }, { name: 'élégance', percentage: 90 }],
+    tagsPrefix: ['rose éternelle', 'préservée', 'cadeau'],
+    occasions: ['romantique', 'mariage', 'anniversaire'],
+    emotions: [{ name: 'amour', percentage: 96 }, { name: 'élégance', percentage: 90 }],
   },
-  'Roses eternelle en transparence': {
-    category: 'fleur-eternelle',
-    subcategory: 'cadre',
-    flowerType: 'rose',
-    tagsPrefix: ['rose éternelle', 'luxe'],
-    occasions: ['romantique', 'mariage'],
-    emotions: [{ name: 'raffinement', percentage: 92 }, { name: 'élégance', percentage: 88 }],
+
+  // 4. Plantes
+  'Plantes': {
+    category: 'plante',
+    subcategory: null,
+    flowerType: 'plante',
+    tagsPrefix: ['plante', 'intérieur', 'végétal'],
+    occasions: ['entreprise', 'anniversaire', 'maison'],
+    emotions: [{ name: 'calme', percentage: 85 }, { name: 'pureté', percentage: 75 }],
   },
-  'Celebrating Love': {
-    category: 'fleur-fraiche',
-    subcategory: 'bouquet',
-    flowerType: 'rose',
-    tagsPrefix: ['rose rouge', 'romantique'],
-    occasions: ['romantique', 'anniversaire'],
-    emotions: [{ name: 'amour', percentage: 98 }, { name: 'passion', percentage: 92 }],
-  },
-  'Petites Attentions': {
-    category: 'fleur-eternelle',
-    subcategory: 'coffret',
-    flowerType: 'rose',
-    tagsPrefix: ['cadeau', 'attention'],
-    occasions: ['remerciement', 'anniversaire'],
-    emotions: [{ name: 'tendresse', percentage: 85 }, { name: 'joie', percentage: 80 }],
-  },
-  'Celebrating Mums': {
-    category: 'fleur-eternelle',
-    subcategory: 'coffret',
-    flowerType: 'rose',
-    tagsPrefix: ['maman', 'cadeau'],
-    occasions: ['remerciement'],
-    emotions: [{ name: 'reconnaissance', percentage: 95 }, { name: 'tendresse', percentage: 88 }],
-  },
-  'Composition Bouquets Roses': {
-    category: 'fleur-fraiche',
-    subcategory: 'bouquet',
-    flowerType: 'rose',
-    tagsPrefix: ['rose', 'bouquet'],
-    occasions: ['romantique', 'mariage'],
-    emotions: [{ name: 'amour', percentage: 94 }, { name: 'joie', percentage: 82 }],
-  },
-  'Bouquets Compositions Fleurs': {
-    category: 'fleur-fraiche',
-    subcategory: 'composition',
-    flowerType: 'composition',
-    tagsPrefix: ['composition', 'bouquet'],
-    occasions: ['elegance', 'entreprise'],
-    emotions: [{ name: 'élégance', percentage: 88 }, { name: 'raffinement', percentage: 84 }],
-  },
+
+  // 5. Objets déco / Vases et accessoires
+  'Vases et Accessoires': {
+    category: 'accessoire',
+    subcategory: 'vase',
+    flowerType: 'accessoire',
+    tagsPrefix: ['vase', 'accessoire', 'décoration'],
+    occasions: ['maison', 'elegance'],
+    emotions: [{ name: 'élégance', percentage: 85 }],
+  }
 };
 
 // =========================
@@ -143,73 +154,19 @@ function getCell(row, headers, possibleNames) {
 }
 
 // =========================
-// EXTRACTION IMAGES (CORRIGÉE)
+// UPLOAD DE L'URL IMAGE VERS CLOUDINARY
 // =========================
-function extractImagesByRow(workbook, worksheet) {
-  const imagesMap = {};
-  
-  if (!workbook.model.media) return imagesMap;
-  
-  const images = worksheet.getImages();
-  
-  for (const image of images) {
-    const media = workbook.model.media.find(m => m.index === image.imageId);
-    if (!media) continue;
-    
-    const rowNumber = image.range.tl.nativeRow + 1;
-    if (!imagesMap[rowNumber]) imagesMap[rowNumber] = [];
-    
-    imagesMap[rowNumber].push({
-      buffer: media.buffer,
-      extension: media.extension || 'png',
-    });
-  }
-  
-  return imagesMap;
-}
-
-// =========================
-// DESCRIPTION
-// =========================
-function buildDescription(product, mapping) {
-  if (product.description?.trim()) {
-    let desc = product.description.trim();
-    if (product.composition) desc += `\n\nComposition : ${product.composition}`;
-    if (product.pricePerFlower) desc += `\n\nPrix par fleur : ${product.pricePerFlower}`;
-    return desc;
-  }
-  
-  let desc = `${product.name} — création florale Flora Studio.`;
-  if (product.composition) desc = `Composition : ${product.composition}. ${desc}`;
-  if (mapping.category === 'fleur-eternelle') desc += ` Rose éternelle premium.`;
-  if (mapping.category === 'fleur-fraiche') desc += ` Fleurs fraîches sélectionnées.`;
-  return desc;
-}
-
-function extractDimensions(description) {
-  if (!description) return { height: 'Standard', diameter: 'Standard' };
-  const heightMatch = description.match(/Hauteur\s*:\s*(\d+(?:[,.]?\d+)?)\s*cm/i);
-  const diameterMatch = description.match(/(Diamètre|Largeur)\s*:\s*(\d+(?:[,.]?\d+)?)\s*cm/i);
-  return {
-    height: heightMatch ? `${heightMatch[1]} cm` : 'Standard',
-    diameter: diameterMatch ? `${diameterMatch[2]} cm` : 'Standard',
-  };
-}
-
-// =========================
-// UPLOAD IMAGE
-// =========================
-async function uploadImage(imageBuffer, flowerName, index) {
+async function uploadImageUrl(imageUrl, flowerName) {
+  if (!imageUrl || !imageUrl.startsWith('http')) return null;
   try {
-    const base64 = `data:image/png;base64,${imageBuffer.toString('base64')}`;
     const response = await axios.post(`${API_BASE_URL}/api/upload`, {
-      images: [base64],
-      flowerName: `${flowerName}-${index}`,
+      images: [imageUrl],
+      flowerName: flowerName,
     });
-    return response.data?.images?.[0]?.url || null;
+    return response.data?.images?.[0]?.url || imageUrl;
   } catch (error) {
-    console.error(`  ⚠ Upload failed: ${error.message}`);
-    return null;
+    console.warn(`  ⚠️ Échec upload Cloudinary pour l'URL, utilisation directe : ${imageUrl}`);
+    return imageUrl;
   }
 }
 
@@ -219,7 +176,7 @@ async function uploadImage(imageBuffer, flowerName, index) {
 async function createProduct(productData) {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/flowers`, productData);
-    console.log(`  ✅ Créé : ${productData.name}`);
+    console.log(`  ✅ Créé : ${productData.name} (${productData.price} MAD)`);
     return response.data;
   } catch (error) {
     console.error(`  ❌ Erreur : ${error.response?.data?.error || error.message}`);
@@ -228,49 +185,43 @@ async function createProduct(productData) {
 }
 
 // =========================
-// TRAITEMENT FEUILLE (VERSION SÉQUENTIELLE SÉCURISÉE)
+// TRAITEMENT FEUILLE
 // =========================
-async function processSheet(workbook, worksheet, mapping) {
-  console.log(`\n📄 Feuille : ${worksheet.name}`);
+async function processSheet(worksheet, mapping) {
+  console.log(`\n📄 Traitement de la feuille : ${worksheet.name}`);
   
   const headers = extractHeaders(worksheet);
-  const imagesMap = extractImagesByRow(workbook, worksheet);
-  
-  // Récupérer toutes les lignes non vides d'abord
   const rows = [];
+
   worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
     if (rowNumber === 1) return;
-    const name = getCell(row, headers, ['Nom']);
+    const name = getCell(row, headers, ['Nom du produit', 'Nom']);
     if (name?.trim()) rows.push({ row, rowNumber, name });
   });
-  
+
   console.log(`  📋 ${rows.length} produits trouvés`);
-  
+
   const createdProducts = [];
-  
-  // Traitement séquentiel (pas de risque d'async fou)
+
   for (const { row, rowNumber, name } of rows) {
     try {
-      const description = getCell(row, headers, ['Description']);
-      const composition = getCell(row, headers, ['Composition du bouquet', 'Composition']);
-      const pricePerFlower = getCell(row, headers, ['Prix par fleur', 'Prix par fleurs']);
-      const price = getCell(row, headers, ['Prix']);
-      
+      const priceRaw = getCell(row, headers, ['Prix']);
+      const oldPriceRaw = getCell(row, headers, ['Ancien Prix', 'Ancien prix']);
+      const imageUrlRaw = getCell(row, headers, ['Source Image (URL / Chemin Local)', 'Source Image', 'Image']);
+
+      const price = cleanPrice(priceRaw);
+      const parsedOldPrice = cleanPrice(oldPriceRaw);
+      const oldPrice = parsedOldPrice > 0 ? parsedOldPrice : null;
+
       const uniqueSlug = `${slugify(name)}-${Date.now()}-${rowNumber}`;
-      const dimensions = extractDimensions(description);
-      
-      // Upload des images
-      const rowImages = imagesMap[rowNumber] || [];
+
       const uploadedImages = [];
-      
-      for (let i = 0; i < rowImages.length; i++) {
-        console.log(`  📤 Upload image ${i + 1}/${rowImages.length} pour : ${name.substring(0, 30)}...`);
-        const url = await uploadImage(rowImages[i].buffer, uniqueSlug, i);
+      if (imageUrlRaw) {
+        console.log(`  📤 Traitement de l'image pour : ${name.substring(0, 30)}...`);
+        const url = await uploadImageUrl(imageUrlRaw, uniqueSlug);
         if (url) uploadedImages.push(url);
-        await sleep(DELAY_BETWEEN_REQUESTS);
       }
-      
-      // Couleurs basées sur le nom
+
       const colors = [];
       const lower = name.toLowerCase();
       if (lower.includes('rose')) colors.push('rose');
@@ -280,19 +231,19 @@ async function processSheet(workbook, worksheet, mapping) {
       if (lower.includes('vert')) colors.push('vert');
       if (lower.includes('jaune')) colors.push('jaune');
       if (lower.includes('pourpre') || lower.includes('violet')) colors.push('violet');
-      
+
       const productData = {
         name,
         slug: uniqueSlug,
-        shortDescription: name.length > 60 ? `${name.substring(0, 57)}...` : name,
-        description: buildDescription({ name, description, composition, pricePerFlower }, mapping),
-        price: cleanPrice(price),
-        oldPrice: null,
+        shortDescription: `${name} — Fiora Studio, Casablanca.`,
+        description: `${name} — Création florale Fiora Studio Casablanca.`,
+        price: price,
+        oldPrice: oldPrice,
         currency: 'MAD',
         stock: DEFAULT_STOCK,
         featured: Math.random() > 0.85,
         popular: true,
-        premium: cleanPrice(price) >= 500,
+        premium: price >= 500,
         rating: randomRating(),
         reviews: randomReviews(),
         category: mapping.category,
@@ -304,28 +255,28 @@ async function processSheet(workbook, worksheet, mapping) {
         colors,
         sizes: [{
           label: 'Unique',
-          price: cleanPrice(price),
-          height: dimensions.height,
-          diameter: dimensions.diameter,
+          price: price,
+          height: 'Standard',
+          diameter: 'Standard',
         }],
         images: uploadedImages,
         imagePublicIds: [],
         seo: {
           title: name,
-          description: `✨ ${name} — Flora Studio, Casablanca.`,
+          description: `✨ ${name} — Fiora Studio, Casablanca.`,
           keywords: [uniqueSlug, mapping.category, ...mapping.tagsPrefix],
         },
       };
-      
+
       const created = await createProduct(productData);
       if (created) createdProducts.push(created);
-      
+
       await sleep(DELAY_BETWEEN_REQUESTS);
     } catch (error) {
       console.error(`  ❌ Ligne ${rowNumber} erreur:`, error.message);
     }
   }
-  
+
   return createdProducts;
 }
 
@@ -333,37 +284,54 @@ async function processSheet(workbook, worksheet, mapping) {
 // MAIN
 // =========================
 async function main() {
-  console.log('\n🚀 IMPORT FLORA STUDIO\n');
-  
+  console.log('\n🚀 IMPORT FIORA STUDIO VERS MONGODB\n');
+
   const excelPath = process.argv[2];
   if (!excelPath) {
-    console.log('❌ Usage: node scripts/import-excel-products.js chemin/fichier.xlsx');
+    console.log('❌ Usage: node scripts/import-excel-products.js catalogue_fiora_studio.xlsx');
     process.exit(1);
   }
-  
+
   if (!fs.existsSync(excelPath)) {
     console.log('❌ Fichier introuvable');
     process.exit(1);
   }
-  
-  console.log(`📖 Lecture : ${excelPath}`);
-  
+
+  console.log(`📖 Lecture du fichier : ${excelPath}`);
+
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(excelPath);
-  
+
   let total = 0;
-  
-  for (const worksheet of workbook.worksheets) {
+
+  const orderedWorksheets = DESIRED_SHEET_ORDER
+    .map(name => workbook.getWorksheet(name))
+    .filter(Boolean);
+
+  workbook.worksheets.forEach(sheet => {
+    if (!orderedWorksheets.includes(sheet)) {
+      orderedWorksheets.push(sheet);
+    }
+  });
+
+  for (const worksheet of orderedWorksheets) {
     const mapping = SHEET_MAPPING[worksheet.name];
-    if (!mapping) {
-      console.log(`⚠️ Feuille ignorée : ${worksheet.name}`);
+
+    if (mapping === null) {
+      console.log(`\n⏭️ Onglet ignoré : ${worksheet.name}`);
       continue;
     }
-    const created = await processSheet(workbook, worksheet, mapping);
+
+    if (!mapping) {
+      console.log(`\n⚠️ Feuille non mappée ignorée : ${worksheet.name}`);
+      continue;
+    }
+
+    const created = await processSheet(worksheet, mapping);
     total += created.length;
   }
-  
-  console.log(`\n🎉 Import terminé ! ${total} produits créés.`);
+
+  console.log(`\n🎉 Import terminé ! ${total} produits créés dans MongoDB.`);
 }
 
 main().catch(console.error);

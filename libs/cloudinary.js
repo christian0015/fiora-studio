@@ -22,7 +22,7 @@ export async function uploadFlowerImage(image, flowerName) {
 
   try {
     const result = await cloudinary.uploader.upload(image, {
-      folder: `flora-studio/flowers/${slug}`,
+      folder: `fiora-studio/flowers/${slug}`,
       public_id: `img-${timestamp}`,
       allowed_formats: ["jpg", "png", "webp", "jpeg"],
       transformation: [{ quality: "auto:good", fetch_format: "auto" }],

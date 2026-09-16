@@ -2,4 +2,4 @@
 npm install exceljs axios slugify
 
 # Exécution (depuis la racine du projet)
-node scripts/import-excel-products.js "public/catalogue_fiora_studio.xlsx"
+node scripts/import-excel-products.js "public/Categories.xlsx"

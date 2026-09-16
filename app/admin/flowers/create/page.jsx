@@ -15,20 +15,61 @@ const EMOTIONS_LIST = [
   "espoir", "raffinement", "célébration", "solennité", "admiration", "sobriété"
 ]
 
+// const CATEGORIES = [
+//   { slug: "fleur-fraiche", label: "Fleur Fraîche", subs: ["bouquet", "composition", "vrac"] },
+//   { slug: "fleur-eternelle", label: "Fleur Éternelle", subs: ["bouquet", "coffret", "cadre"] },
+//   { slug: "fleur-sechee", label: "Fleur Séchée", subs: ["bouquet", "composition"] },
+//   { slug: "plante", label: "Plante", subs: [] },
+// ]
+
+// const SUBCATEGORY_LABELS = {
+//   bouquet: "Bouquets",
+//   composition: "Compositions",
+//   vrac: "À la tige",
+//   coffret: "Coffrets",
+//   cadre: "Cadres fleuris",
+// }
+
+// 
 const CATEGORIES = [
-  { slug: "fleur-fraiche", label: "Fleur Fraîche", subs: ["bouquet", "composition", "vrac"] },
-  { slug: "fleur-eternelle", label: "Fleur Éternelle", subs: ["bouquet", "coffret", "cadre"] },
-  { slug: "fleur-sechee", label: "Fleur Séchée", subs: ["bouquet", "composition"] },
-  { slug: "plante", label: "Plante", subs: [] },
-]
+  { 
+    slug: "fraicheur-de-saison", 
+    label: "Fraîcheur de Saison", 
+    subs: ["rose-fraiche", "autre-fleur", "bouquet", "composition", "vrac"] 
+  },
+  { 
+    slug: "fleur-sechee", 
+    label: "Fleur Séchée", 
+    subs: ["bouquet", "composition"] 
+  },
+  { 
+    slug: "fleur-eternelle", 
+    label: "Fleur Éternelle", 
+    subs: ["bouquet", "coffret", "cadre"] 
+  },
+  { 
+    slug: "plante", 
+    label: "Plante", 
+    subs: [] 
+  },
+  { 
+    slug: "accessoire", 
+    label: "Objets Déco", 
+    subs: ["vase"] 
+  },
+];
 
 const SUBCATEGORY_LABELS = {
+  "rose-fraiche": "Roses Fraîches",
+  "autre-fleur": "Autres Fleurs",
   bouquet: "Bouquets",
   composition: "Compositions",
   vrac: "À la tige",
   coffret: "Coffrets",
   cadre: "Cadres fleuris",
-}
+  vase: "Vases",
+};
+// 
 
 function slugify(text) {
   return text
